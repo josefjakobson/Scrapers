@@ -6,24 +6,25 @@ const scraperObject = {
 		console.log(`Navigating to ${this.url}...`);
 		await page.goto(this.url);
 
-		const collection = []
 		await page.waitForSelector("div.sc-7qr9y8-0.iUvoJs.Price--amount")
-		let prices = await page.$$eval("div.sc-7qr9y8-0.iUvoJs.Price--amount:first-of-type", price => price.map(price => price.textContent))
+		let prices = await page.$$eval(".sc-1a9c68u-0.jdhmum.Price--main.sc-1rzu7xl-0.eYVhXE > div.sc-7qr9y8-0.iUvoJs.Price--amount", price => price.map(price => price.textContent))
 		console.log(prices)
 		await page.waitForSelector("div.sc-7qr9y8-0.sc-nedjig-1.iUvoJs.fyXutN")
 		let titles = await page.$$eval(".sc-7qr9y8-0.sc-nedjig-1.iUvoJs.fyXutN", title => title.map(title => title.textContent))
 		console.log(titles)
 		await page.waitForSelector(".Asset--anchor")
 		let links = await page.$$eval(".Asset--anchor", link => link.map(link => link.href))
-		console.log(links[0])
+		console.log(links)
 
 		listingArray = []
-		for (var i = 0; i < prices.length; i++){
+		for (var i = 0; i < titles.length; i++){
 			listingArray.push(createListingObject(titles[i], prices[i], links[i]))
 		}
 
 		console.log(listingArray)
 		console.log(listingArray.length)
+
+		window.scrollBy(0, 200)
 
 	}
 }
